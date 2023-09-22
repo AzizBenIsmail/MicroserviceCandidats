@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class CandidatRestAPI {
     private String hello ="Hello I'm Candiate";
@@ -34,4 +36,16 @@ public class CandidatRestAPI {
     public ResponseEntity<String> deleteCandidat(@PathVariable(value = "id") int id){
         return new ResponseEntity<>(candidatService.deleteCandidat(id), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Candidat>> getCandidat() {
+        List<Candidat> candidat = candidatService.getAllCandidats();
+        if (candidat != null) {
+            return new ResponseEntity<>(candidat, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
